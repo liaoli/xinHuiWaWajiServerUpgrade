@@ -44,6 +44,7 @@ public class DaemonService extends Service {
     public boolean isAppStart = false;
     private String packageName_now = "com.xinhui.upgradeapp";
     private String packageName_Daemon = packageName_now + ":guard";
+    private Class  Daemon = MyService.class;
     TimerTask task = new TimerTask() {
 
 
@@ -58,17 +59,20 @@ public class DaemonService extends Service {
 
             ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
-            List<ActivityManager.RunningAppProcessInfo> processInfos = mActivityManager.getRunningAppProcesses();
+            List<ActivityManager.RunningServiceInfo> services = mActivityManager.getRunningServices(Integer.MAX_VALUE);
 
 
-
-            for(ActivityManager.RunningAppProcessInfo processInfo : processInfos){
-                if (processInfo.processName.equals(packageName_Daemon)) {
+            for(ActivityManager.RunningServiceInfo service : services){
+                String name = service.service.getClassName();
+                String myName = Daemon.getName();
+                if (myName.equals(name)) {
                     isMyServiceAlive = true;
                     break;
                 } else {
                     isMyServiceAlive = false;
                 }
+
+                Log.e(TAG, "service ------------->  "+  service.service.getClassName());
             }
 
             if(!isMyServiceAlive){
@@ -77,7 +81,7 @@ public class DaemonService extends Service {
                 startService(intent);
             }
 
-            Log.e(TAG, "processInfo ------------->  " + packageName_now + "is live = " + isMyServiceAlive + ",is visible = " + isMyServiceAlive );
+            Log.e(TAG, "processInfo ------------->  " + Daemon.getName() + "is live = " + isMyServiceAlive );
         }
 
     };

@@ -11,12 +11,47 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
+        debug {
+            keyAlias 'xinhui'
+            keyPassword '123456'
+            storeFile file('../xinhui_upgrade.jks')
+            storePassword '123456'
+        }
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            keyAlias 'xinhui'
+            keyPassword '123456'
+            storeFile file('../xinhui_upgrade.jks')
+            storePassword '123456'
         }
     }
+
+
+
+    buildTypes {
+        release {
+            //混淆编译
+            minifyEnabled true
+            //等宽压缩
+            zipAlignEnabled true
+            //移除无用的资源文件
+            shrinkResources true
+            //release 签名
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            minifyEnabled false
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
 
 
     sourceSets {
@@ -64,10 +99,11 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
     api 'io.reactivex.rxjava2:rxjava:2.1.7'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'com.squareup.okio:okio:1.11.0'
-    compile 'com.liulishuo.filedownloader:library:1.6.8'
-    compile 'com.liulishuo.filedownloader:library:1.6.8'
-    compile 'com.google.protobuf:protobuf-java:3.1.0'
-    compile 'com.google.protobuf:protoc:3.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    implementation 'com.squareup.okio:okio:1.11.0'
+    implementation 'com.liulishuo.filedownloader:library:1.6.8'
+    implementation 'com.liulishuo.filedownloader:library:1.6.8'
+    implementation 'com.google.protobuf:protobuf-java:3.1.0'
+    implementation 'com.google.protobuf:protoc:3.1.0'
+    implementation 'com.tencent.bugly:crashreport:2.6.6'
 }

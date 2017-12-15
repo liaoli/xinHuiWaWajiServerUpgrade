@@ -18,6 +18,7 @@ import com.xinhui.upgradeapp.content.UrlOriginContent;
 import com.xinhui.upgradeapp.content.CtrlType;
 import com.xinhui.upgradeapp.service.LongLinkMessageManager;
 import com.xinhui.upgradeapp.util.SilentInstall;
+import com.xinhuitech.baselibrary.data.serialize.ProtoBufferMapper;
 
 import java.io.File;
 import java.util.List;
@@ -244,6 +245,8 @@ public class MyService extends Service implements LongLinkMessageManager.CtrlCal
                 createDownLoadTask(ctrlMsgRep.getData()).start();
                 break;
         }
+        Game.CtrlEndReq ctrlEndReq =  Game.CtrlEndReq.newBuilder().setCmd(0).build();
+        LongLinkMessageManager.getManager().send(commandId + 1,new ProtoBufferMapper(ctrlEndReq,null,commandId + 1));
     }
 
 

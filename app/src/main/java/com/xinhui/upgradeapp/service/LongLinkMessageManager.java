@@ -143,7 +143,6 @@ public class LongLinkMessageManager implements LongLink.LongLinkCallback, LongLi
                     Base.RspHead rspHead = Base.RspHead.newBuilder().setRetCode(0).setRetMsg("received").build();
                     Game.CtrlMsgResp ctrlMsgResp = Game.CtrlMsgResp.newBuilder().setHead(rspHead).build();
 
-                    //Game.CtrlEndReq ctrlEndReq =  Game.CtrlEndReq.newBuilder().setCmd(0).build();
                     boolean flag = longLink.sendMessage(new ProtoBufferMapper(ctrlMsgResp, null, messageCmd + 1).transformTo());
 
                     LogUtils.e("Ctrl resp " + ctrlMsgRep + ", flag = " + flag + ctrlMsgRep.toString());

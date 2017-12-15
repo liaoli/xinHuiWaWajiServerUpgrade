@@ -19,3 +19,19 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn rx.**
+
+-dontwarn okio.**
+-dontwarn sun.**
+-dontwarn com.squareup.okhttp.*
+-dontwarn javax.annotation.**
+
+-keepattributes *Annotation*
+-keep class com.google.protobuf.**{
+*;
+}
+-keep class sun.misc.**{*;}
+
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

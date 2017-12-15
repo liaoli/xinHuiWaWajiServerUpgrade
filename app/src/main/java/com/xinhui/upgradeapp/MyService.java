@@ -246,7 +246,7 @@ public class MyService extends Service implements LongLinkMessageManager.CtrlCal
                 break;
         }
         Game.CtrlEndReq ctrlEndReq =  Game.CtrlEndReq.newBuilder().setCmd(0).build();
-        LongLinkMessageManager.getManager().send(commandId + 1,new ProtoBufferMapper(ctrlEndReq,null,commandId + 1));
+        LongLinkMessageManager.getManager().send(commandId + 2,new ProtoBufferMapper(ctrlEndReq,null,commandId + 2));
     }
 
 

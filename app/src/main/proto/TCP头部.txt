@@ -1,0 +1,7 @@
+用途：
+娃娃机和srv之间的协议通信
+格式：
+    固定长度header | protobuf packet序列化结果
+固定长度header：（32B）
+    4B magic| 4B length（小端字节序）| 24B reserved
+    WAWA |length|reserved

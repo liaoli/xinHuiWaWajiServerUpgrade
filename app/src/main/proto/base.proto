@@ -1,0 +1,45 @@
+syntax = "proto3";
+package boomegg.cn.wawa.proto;
+
+//PktOpt 用于带上请求功用参数，在短链接里面比较有用，长链接里面第一个字段填上必要的数据
+//后续的数据可以不需要填那么多，不过序列号最好每个包都带上
+message PktOpt {
+    // 1.0.1.142 前三个为应用版本号，最后一个为热更新版本号，每个版本号占一个字节
+    string Version  = 1;
+    string Mtkey    = 2;
+    string Skey     = 3;
+    uint32 Seq      = 4;
+    uint64 TimeMs   = 5; // ms
+    string UID      = 6;
+    string Device   = 7; // ios | android | h5
+    string Channel  = 8; // googleplay | appstore | ...
+    string Platform = 9;
+    string Lang     = 10; // zh_cn | ...
+    string IP       = 11;
+    string Province = 12;
+    string Country  = 13;
+}
+
+message PktInfo {
+    int32 Cmd = 1;
+    int32 Len = 2;
+}
+
+message PktHead {
+    PktOpt Opt              = 1;
+    PktInfo PktInfo         = 2;
+}
+
+message Packet {
+    PktHead Head = 1;
+    bytes   Body = 2;
+}
+
+//请求包格式：opt|pktInfo|RequestPBbytes
+//响应包格式  opt|pktInfo|RequestPBbytes(RspHead|RspStruct)
+
+message RspHead {
+    int32 RetCode = 1;
+    string RetMsg  = 2;
+}
+

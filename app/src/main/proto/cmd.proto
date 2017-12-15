@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package boomegg.cn.wawa.proto;
+
+enum GAME_CMD {
+    GAME_CMD_INIT  = 0;
+
+    //以下是娃娃机自动向srv上报的请求
+    //娃娃机初始化登录命令字,娃娃机向srv注册自己
+    GAME_CMD_WAWA_REG_REQ           = 100001;
+    GAME_CMD_WAWA_REG_RESP          = 100002;
+    //娃娃机抓取结果
+    GAME_CMD_WAWA_NOTIFY_REQ        = 100003;
+    GAME_CMD_WAWA_NOTIFY_RESP       = 100004;
+    //娃娃机心跳协议
+    GAME_CMD_WAWA_HB_REQ            = 100005;
+    GAME_CMD_WAWA_HB_RESP           = 100006;
+
+	//娃娃机向srv更新信息(cover)
+    GAME_CMD_UPDATE_ROOM_INFO_REQ   = 100007;
+    GAME_CMD_UPDATE_ROOM_INFO_RESP  = 100008;
+
+    //以下是srv向娃娃机的协议
+    //初始化娃娃的天车参数及中奖几率
+    DOLL_MACHINE_INIT_REQ			= 110001;
+    DOLL_MACHINE_INIT_RESP          = 110002;
+    //srv告知娃娃机开始游戏的用户
+    GAME_CMD_SRV_TAKE_WAWA_REQ      = 110003;
+    GAME_CMD_SRV_TAKE_WAWA_RESP     = 110004;
+    GAME_CMD_SRV_TAKE_SRV_RESP      = 110005;
+
+
+    //以下是用户操作的请求
+    //用户登录到go-serv
+    GAME_CMD_USER_LOGIN_REQ         = 120001;
+    GAME_CMD_USER_LOGIN_RESP        = 120002;
+    //心跳协议
+    GAME_CMD_USER_HB_REQ            = 120003;
+    GAME_CMD_USER_HB_RESP           = 120004;
+    //用户进入房间，获取房间详情信息
+    GAME_CMD_USER_ENTER_ROOM_REQ    = 120007;
+    GAME_CMD_USER_ENTER_ROOM_RESP   = 120008;
+	//用户预约上机
+    GAME_CMD_USER_APPLY_REQ         = 120017;
+    GAME_CMD_USER_APPLY_RESP        = 120018;
+	//通知用户上机(from srv)
+	GAME_CMD_NOTIFY_USER_PLAY_REQ   = 120019;
+	//通知上机的回应(from cli)
+    GAME_CMD_NOTIFY_USER_PLAY_RESP  = 120020;
+	//确认用户上机(from srv)
+    GAME_CMD_CONFIRM_USER_PLAY_RESP = 120021;
+    //围观者离开房间
+    GAME_CMD_VISITOR_LEAVE_REQ      = 120022;
+	GAME_CMD_VISITOR_LEAVE_RESP     = 120023;
+	//srv通知cli 房间信息更新
+	GAME_CMD_NOTI_ROOM_UPDATE_REQ   = 120024;
+	GAME_CMD_NOTI_ROOM_UPDATE_RESP  = 120025;
+	//用户取消预约
+    GAME_CMD_CANCEL_APPLY_REQ       = 120026;
+    GAME_CMD_CANCEL_APPLY_RESP      = 120027;
+	//srv告知cli 需要登录
+	GAME_CMD_NOT_LOGIN_RESP         = 120028;
+	//告知用户游戏结果
+	GAME_CMD_NOTI_GAME_RESULT_RESP  = 120029;
+	//首页广播信息
+	GAME_CMD_BROADCAST_RESP         = 120030;
+
+    GAME_CMD_CTRL_MSG_REQ           = 150001;
+    GAME_CMD_CTRL_MSG_RESP          = 150002;
+    GAME_CMD_CTRL_END_REQ           = 150003;
+
+    //最大允许命令字
+    GAME_CMD_MAX                    = 999999;
+
+	//以下已废弃
+    //列出娃娃机列表
+    GAME_CMD_USER_ROOM_LIST_REQ     = 120005;
+    GAME_CMD_USER_ROOM_LIST_RESP    = 120006;
+    //开始游戏
+    GAME_CMD_USER_PLAY_REQ          = 120009;
+    GAME_CMD_USER_PLAY_RESP         = 120010;
+    //退出游戏
+    GAME_CMD_USER_QUIT_PLAY_REQ     = 120011;
+    GAME_CMD_USER_QUIT_PLAY_RESP    = 120012;
+	//列出"娃娃机群"列表
+    GAME_CMD_ROOM_GROUP_LIST_REQ    = 120013;
+    GAME_CMD_ROOM_GROUP_LIST_RESP   = 120014;
+	//按指定娃娃，列出娃娃机列表
+    GAME_CMD_ROOM_LIST_BY_DOLL_REQ  = 120015;
+    GAME_CMD_ROOM_LIST_BY_DOLL_RESP = 120016;
+}

@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package boomegg.cn.wawa.proto;
+
+// php 与 go server 共用
+message UserInfo{
+    string Openid   = 1;
+    string Uid      = 2;
+    string Device   = 3;
+    string DeviceToken = 4;
+    string Platform = 5;
+    string Channel  = 6;
+    string Name     = 7;
+    string Pic      = 8;  //图像地址,机器人存个整数, 真实用户存字符串地址
+    string Sex      = 9;
+    uint32 RegisterTime = 10; // 注册时间
+    uint32 LastLoginTime = 11; // 最后登录时间
+    uint32 VipExpireTime = 12;         //vip过期时间
+    uint32 DailyFirstLoginTime     = 13;    //今日首次登陆游戏时间
+    uint32 FriendsNum = 14; //好友数
+    uint32 PayTotal = 15; //支付总额
+    string Mtkey = 16;
+    uint32 MtkeyExpireTime = 17;            //mtkey的过期时间
+    uint32 LoginType = 19;  //账户类型, 参考LoginType类
+	uint32 Level = 20;     //等级，预留字段
+	uint32 Money = 21;      //用户余额，金额变动时不更新此数据
+	bool   IsRegister = 22;  //是否注册
+	string Skey = 23;
+}
+
+message UserFactInfo {
+    string Openid   = 1;
+    string Uid      = 2;
+    string Device   = 3;
+    string DeviceToken = 4;
+    string Platform = 5;
+    string Channel  = 6;
+    string Name     = 7;
+    string Pic      = 8;  //图像地址,机器人存个整数, 真实用户存字符串地址
+    string Sex      = 9;
+    uint32 RegisterTime = 10; // 注册时间
+    uint32 LastLoginTime = 11; // 最后登录时间
+    uint32 VipExpireTime = 12;         //vip过期时间
+    uint32 DailyFirstLoginTime     = 13;    //今日首次登陆游戏时间
+    uint32 FriendsNum = 14; //好友数
+    uint32 PayTotal = 15; //支付总额
+    string Mtkey = 16;
+    uint32 MtkeyExpireTime = 17;            //mtkey的过期时间
+    uint32 LoginType = 19;  //账户类型, 参考LoginType类
+}
+
+message Doll{
+    string DollID     = 1;
+    string Title      = 2;
+    string CoverUrl   = 3;
+}
+
+// RoomGroup 主界面展示列表里的item
+// 当前定义：“一类娃娃机”, 因此成员中会返回Doll结构体
+message RoomGroup{
+    int32 Status    = 1;
+    int32 Price     = 2;
+    string DollID     = 3;
+    string Title      = 4;
+    string CoverUrl   = 5;
+}
+
+message RoomGroupList{
+    int32 Ret    = 1;
+    repeated RoomGroup group =  2; //围观群众
+    int32 Type   = 3;   //类型,1-热门
+}
+
+
+//Zego相关的结构体
+message ZegoInfo{
+	string RoomID                   =  1; // Zego 房间ID
+	repeated string StreamUrls      =  2; // 推流地址，目前有两个
+}
+
+//Room用来表示房间的数据结构
+message Room{
+    string RoomID                  =  1;
+	string Name                    =  2;
+	int32 Price                    =  3;
+	string DeviceID                =  4; //设备唯一标识
+    int32 Status                   =  5; //0: 普通; 1: 游戏中; TODO: use enum
+	UserFactInfo Player            =  6; //当前玩家
+	repeated UserFactInfo Visitors =  7; //围观群众
+	int32 WaitNum                  =  8; //排队人数
+	string CoverUrl                =  9; //房间封面
+	int32 VisitorNum               = 10; //围观人数
+	string ZegoUUID                = 11; //废弃
+	int32 CurrentPos               = 12; //排队的用户当前位置，从1开始 为零表示未排队
+	ZegoInfo ZegoInfo              = 13;
+}
+
+
+message RoomList{
+    int32 Ret    = 1;
+    repeated Room room =  2; //
+    string DollId = 3;      //请求的娃娃ID，在返回给前端
+}
+
+message GameRecord {
+	string RoomID                  =  1;
+	string UserID                  =  2;
+	string UserName                =  3;
+	string UserPic                 =  4;
+	string WawaID                  =  5;
+	string WawaName                =  6;
+	string WawaPic                 =  7;
+	int32  Result                  =  8;
+	int64 StartTme                 =  9;
+	int64 EndTime                  =  10;
+}
+
+
+

@@ -1,0 +1,236 @@
+syntax = "proto3";
+
+package boomegg.cn.wawa.proto;
+
+import "base.proto";
+import "enum.proto";
+import "struct.proto";
+
+//娃娃机主动向服务器发起的协议
+message WAWARegReq {
+    string  Serial       =   1; // 设备本身的序列号
+    string  Name         =   2;
+    string  DeviceType   =   3;
+    string  DeviceVer    =   4;
+	ZegoInfo  ZegoInfo   =   5;  // zego info
+}
+
+message WAWARegResp {
+    RspHead Head        =   1;
+	string RoomID       =   2;
+}
+
+message WAWANotifyReq {
+    WAWA_NOTIFY_TYPE    MsgType     =   1;
+    string              Uid         =   2;
+}
+
+message WAWANotifyResp {
+    RspHead Head        =   1;
+}
+
+message WAWAHBReq {
+    bytes Reserved    =   1;
+}
+
+message WAWAHBResp{
+    RspHead Head    =   1;
+    bytes Reserved  =   2;
+}
+
+message WAWAUpdateRoomInfoReq {
+    string cover    =   1;
+}
+
+message WAWAUpdateRoomInfoResp {
+    RspHead Head    =   1;
+    bytes Reserved  =   2;
+}
+
+//srv向娃娃机发起的协议
+//娃娃机天车参数设置推送请求
+message DollMachiInitReq {
+    int32 timeOut = 1; //超时时间，单位秒。玩家可以操做机器的时间，时间到了，自动抓取
+    int32 catchResult = 2; //值为1时，当前当前抓取成功率100%，其他抓力相关设置全部无效。值为0时，抓力非0参数设置有效
+    int32 strengthCatching = 3; //抓取时的抓力(1—48)
+    int32 strengthOnTop = 4; //爪子到达顶部时的抓力(1—48)
+    int32 strengthMoving = 5; //抓取后，爪子移动时的抓力(1—48)
+    int32 strengthMax = 7; //大抓力(1—48)
+    int32 catchStengthLoosenHeight = 8; //抓力放松的高度（0--10）
+}
+
+message DollMachiInitResp {
+    RspHead Head    =   1;
+}
+
+//用户上机请求
+message SRVTakeReq{
+    string UID  = 1;
+}
+
+message SRVTakeResp{
+    RspHead Head    =   1;
+}
+
+message SRVTakeSrvResp{
+    RspHead Head    =   1;
+}
+
+//以下是user（app）和srv之间的协议
+message UserLoginReq{
+    //LoginType
+    USER_LOGIN_TYPE  LoginType   =   1;
+    string  LoginParam           =   2;
+}
+
+message UserLoginResp{
+    RspHead Head        = 1;
+	UserFactInfo UserInfo   = 2;
+}
+
+message NotLoginResp{
+    RspHead Head        = 1;
+}
+
+message UserHBReq{
+    bytes Reserved      = 1;
+}
+
+message UserHBResp{
+    RspHead Head        = 1;
+    bytes Reserved      = 2;
+}
+
+
+message UserRoomListReq{
+
+}
+
+message UserRoomListResp{
+    RspHead Head            = 1;
+    repeated Room RoomList  = 2;
+}
+
+message RoomGroupListReq{
+    ROOM_GROUP_LIST_TYPE Type = 1;
+}
+
+message RoomGroupListResp{
+    RspHead Head                      = 1;
+	ROOM_GROUP_LIST_TYPE Type         = 2;
+    repeated RoomGroup RoomGroupList  = 3;
+}
+
+message RoomListByDollReq{
+    string DollID = 1;
+}
+
+message RoomListByDollResp{
+    RspHead Head             = 1;
+	string DollID            = 2;
+    repeated Room RoomList   = 3;
+}
+
+message UserEnterRoomReq {
+    string RoomID   = 1;
+}
+
+message UserEnterRoomResp{
+    RspHead Head    = 1;
+    string RoomID   = 2;
+    Room Room       = 3;
+}
+
+message UserApplyReq {
+    string RoomID   = 1;
+}
+
+message UserApplyResp{
+    RspHead Head    = 1;
+	string RoomID   = 2;
+	int32 WaitNum   = 3;
+}
+
+message CancelApplyReq {
+    string RoomID   = 1;
+}
+
+message CancelApplyResp{
+    RspHead Head    = 1;
+	string RoomID   = 2;
+	int32 WaitNum   = 3;
+}
+
+message NotifyUserPlayReqFromSrv {
+    RspHead Head    = 1;
+    string RoomID   = 2;
+}
+
+message NotifyUserPlayRespFromCli{
+	NOTIFY_USER_READY_RESP_TYPE RetCode    = 1;
+	string RoomID                          = 2;
+}
+
+message ConfirmUserPlayRespFromSrv {
+	RspHead Head    = 1;
+	string RoomID   = 2;
+}
+
+message UserPlayReq {
+    string RoomID   = 1;
+}
+
+message UserPlayResp{
+    RspHead Head    = 1;
+}
+
+message UserQuitPlayReq {
+    string RoomID   = 1;
+}
+
+message UserQuitPlayResp{
+    RspHead Head    = 1;
+    string RoomID   = 2;
+}
+
+message NotiGameResultResp {
+	RspHead Head    = 1;
+	GameRecord GameRecord = 2;
+}
+
+message BroadcastResp {
+	RspHead Head    = 1;
+	string Words    = 2;
+}
+
+message VisitorLeaveReq {
+    string RoomID   = 1;
+}
+
+message VisitorLeaveResp{
+    RspHead Head    = 1;
+    string RoomID   = 2;
+}
+
+message NotifyRoomUpdateReqFromSrv {
+    RspHead Head    = 1;
+    Room Room       = 2;
+}
+
+message NotifyRoomUpdateRespFromCli {
+	int32 RetCode    = 1;
+	string RoomID    = 2;
+}
+
+message CtrlMsgReq {
+    int32 Cmd = 1;
+    string Data = 2;
+}
+
+message CtrlMsgResp {
+    RspHead Head    = 1;
+}
+
+message CtrlEndReq {
+    int32 Cmd = 1;
+}

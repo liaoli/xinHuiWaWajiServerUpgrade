@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package boomegg.cn.wawa.proto;
+import "struct.proto";
+
+
+//登录注册返回和用户中心个人信息返回，因为数据结构基本一致
+message UserInfoRsp {
+    int32 ret = 1;
+    UserInfo ResponseItem = 2;
+    uint32 Time = 3;
+}
+
+//地址详情
+message MailItem {
+    string Name         = 1;    //姓名
+    string phone        = 2;    //电话
+    bool   IsDefault    = 3;    //是否为默认地址
+    string ProvCityArea = 4;    //省市区文字串
+    string Address      = 5;    //详细地址
+    string AddressId    = 6;    //地址Id
+}
+
+// 邮寄地址返回结构
+message MailAddrRsp {
+    int32 ret = 1;
+    repeated MailItem ResponseItem = 2;
+    uint32 Time = 3;
+}
+
+
+// 增删改公用返回结构
+message CommonRsp {
+    int32 ret = 1;      //返回码
+    string msg = 2;     //错误提示
+    uint32 Time = 3;    //时间戳
+}
+
+message SimpleLoginInfo {
+    string Openid   = 1;
+    string Device   = 2;
+    string Nick = 3;
+    string Pic = 4;
+    uint32 LoginType = 5;  //账户类型, 参考LoginType类
+}
+
+
+message UserData {
+    string UId = 1;
+    uint32 Money      = 2;        //星星数
+}
+
+message MoneyInfo {
+    string Uid = 1;
+    uint32 AddMoney = 2;
+    uint32 CurrentMoney = 3;
+}
+
+
+message MsgCenterList {
+	uint32 UnReadNum = 1;
+	uint32 UnRewardNum = 2;
+	repeated MsgCenterItem messages = 3;
+}
+
+
+message MsgCenterItem {
+	string Id = 1;
+	uint32 Icon = 2;
+	uint32 Time = 3;
+	string Params = 4;	//占位符参数
+	string Rewards = 5;
+	uint32 ReadTime = 6;
+	uint32 RewardTime = 7;
+	uint32 MsgType = 8;
+}
+
+message MsgListResponse{
+	uint32 ret = 1;
+	MsgCenterList ResponseItem = 2;
+	uint32 Time = 3;
+}
+
+
+message Invite {
+	uint32 TodaySendInvietRewards = 1;      //今天领取发送奖励次数,预留后面用
+	uint32 TodaySendInviteTimeStamp = 2;    //上次领发送奖励时间
+	uint32 InviteSucNum = 3;                //成功邀请次数
+	repeated uint32 SucList = 4;            //成功邀请列表
+}
+
+message InviteResponse {
+    uint32 Ret = 1;
+    uint32 AddMoney = 2;
+    uint32 CurrentMoney = 3;
+}
+
+
+//banner配置
+message BannerConf {
+    uint32 PicId = 1;
+    string PicUrl = 2;
+    string JumpUrl = 3;
+}
+//房间类型配置
+message GroupTypeConf {
+    uint32 type = 1;
+    string Title = 2;
+}
+//首页配置
+message HomePageConfig {
+    repeated BannerConf BannerItem = 1;
+    repeated GroupTypeConf GroupTypeItem = 2;
+}
+
+//分享链接
+message ShareUrl {
+    string Url = 1;
+}
+
+//支付中心商品item
+message PayCenterItem {
+	string Id = 1;
+	uint32 BuyNum = 2;
+	uint32 Price = 3;
+    string Desc = 4;
+	uint32 Flag = 5; // 角标: 热销|最划算
+    bool   isFirstCharge = 6; //首充奖励
+}
+
+message PayCenterList {
+	repeated PayCenterItem items = 1;
+    uint32 user_money = 2;
+}
+
+message PayCenterListResponse{
+	uint32 Ret = 1;
+	PayCenterList ResponseItem = 2;
+	uint32 Time = 3;
+}
+
+// for 微信支付
+// 下订单后，客户端需要的返回数据
+message WeiXinPayOrder {
+	string Sign = 1;
+	string PartnerId = 2;
+    string PrepayId = 3;
+    string Pkt = 4;
+    string Noncestr = 5;
+    uint32 Timestamp = 6;
+}
+
+message PayCenterOrderResponse{
+	uint32 Ret = 1;
+	uint32 Time = 2;
+    uint32 Type = 3; // 1: weixin; 2: alipay;
+	WeiXinPayOrder WeiXinPayOrder = 4;
+	string AliPayOrder = 5;
+}

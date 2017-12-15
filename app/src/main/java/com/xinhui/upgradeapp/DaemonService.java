@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.xinhui.upgradeapp.content.Content;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;

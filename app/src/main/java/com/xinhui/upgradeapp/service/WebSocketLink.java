@@ -1,8 +1,10 @@
 package com.xinhui.upgradeapp.service;
 
 import android.os.CountDownTimer;
+import android.os.Environment;
 
-import com.xinhui.upgradeapp.content.Content;
+import com.xinhui.upgradeapp.content.MyEnviromant;
+import com.xinhui.upgradeapp.content.UrlOriginContent;
 import com.xinhuitech.baselibrary.utils.LogUtils;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ import okio.ByteString;
  */
 
 public class WebSocketLink extends WebSocketListener implements LongLink {
-    private static final String HOST_WEB_SOCKET = Content.url_online;
+    private static final String HOST_WEB_SOCKET = MyEnviromant.url;
     private static WebSocket remoteSocket;
     private static OkHttpClient okHttpClient;
     private static WebSocketLink webSocketLink;
@@ -37,7 +39,7 @@ public class WebSocketLink extends WebSocketListener implements LongLink {
         this.heartBeatCallback = heartBeatCallback;
         okHttpClient = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        request = builder.url(HOST_WEB_SOCKET).header("Origin", Content.Origin_online).build();
+        request = builder.url(HOST_WEB_SOCKET).header("Origin", MyEnviromant.Origin).build();
     }
 
     @Override

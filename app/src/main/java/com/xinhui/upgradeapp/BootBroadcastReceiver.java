@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.xinhui.upgradeapp.content.Content;
-
 public class BootBroadcastReceiver extends BroadcastReceiver {
     //重写onReceive方法
     @Override

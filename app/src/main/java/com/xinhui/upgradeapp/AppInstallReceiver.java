@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.xinhui.upgradeapp.content.Content;
+import com.xinhui.upgradeapp.content.UrlOriginContent;
 
 /**
  * Created by liaoli on 2017/12/12.
@@ -15,7 +15,7 @@ import com.xinhui.upgradeapp.content.Content;
 
 public class AppInstallReceiver extends BroadcastReceiver {
 
-    public String packageName = Content.TARGET_PACKAGE;
+    public String packageName = UrlOriginContent.TARGET_PACKAGE;
 
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -15,12 +14,10 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadHelper;
-import com.xinhui.upgradeapp.content.Content;
+import com.xinhui.upgradeapp.content.UrlOriginContent;
 import com.xinhui.upgradeapp.content.CtrlType;
-import com.xinhui.upgradeapp.service.LongLink;
 import com.xinhui.upgradeapp.service.LongLinkMessageManager;
 import com.xinhui.upgradeapp.util.SilentInstall;
-import com.xinhuitech.baselibrary.utils.LogUtils;
 
 import java.io.File;
 import java.util.List;
@@ -63,7 +60,7 @@ public class MyService extends Service implements LongLinkMessageManager.CtrlCal
     Timer timer = new Timer();
 
     public boolean isAppStart = false;
-    private String packageName_now = Content.TARGET_PACKAGE;
+    private String packageName_now = UrlOriginContent.TARGET_PACKAGE;
     private String packageName_Daemon = packageName_now + ":guard";
     private String packageName_MyDaemon = "com.xinhui.upgradeapp" + ":guard";
 

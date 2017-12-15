@@ -11,6 +11,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //后边的XXX.class就是要启动的服务
         Intent service = new Intent(context,MainActivity.class);
+        service.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(service);
         Log.v("TAG", "开机自动服务自动启动.....");
     }

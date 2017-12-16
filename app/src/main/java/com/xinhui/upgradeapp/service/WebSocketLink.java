@@ -8,6 +8,8 @@ import com.xinhui.upgradeapp.content.UrlOriginContent;
 import com.xinhuitech.baselibrary.utils.LogUtils;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -143,11 +145,38 @@ public class WebSocketLink extends WebSocketListener implements LongLink {
     private int reConnectTimes = 0;
 
     private int reConnectedtime = 3000;
-    private CountDownTimer reConnectCountDownTimer;
+    private Timer  reConnectCountDownTimer;
 
     private void reConnect() {
 
+        LogUtils.e("websocket onFailure---------> reConnect reConnectTimes = " + reConnectTimes);
         if(reConnectTimes > 10){
+            LogUtils.e("websocket onFailure---------> reConnect reConnectTimes = " + reConnectTimes + "stop reConnect");
+            return;
+        };
+        reConnectTimes += 1;
+        if(reConnectCountDownTimer != null){
+            reConnectCountDownTimer.cancel();
+        }
+
+        reConnectCountDownTimer = new Timer();
+
+
+
+        reConnectCountDownTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                if(isConnecting){
+                    cancel();
+                    return;
+                }
+                makeSureConnected();
+            }
+        },reConnectedtime * reConnectTimes);
+
+
+        /*if(reConnectTimes > 10){
             return;
         };
         reConnectTimes += 1;
@@ -166,6 +195,6 @@ public class WebSocketLink extends WebSocketListener implements LongLink {
             }
         };
 
-        reConnectCountDownTimer.start();
+        reConnectCountDownTimer.start();*/
     }
 }

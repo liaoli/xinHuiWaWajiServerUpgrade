@@ -8,6 +8,7 @@ public class UrlOriginContent {
     public static String TARGET_PACKAGE = "com.xinhuitech.xhdollmachineserver";
 
 
+    //wss://ali1-ctl.xinhuifun.cn:443/devwss
 
     public static String  url_online = "wss://ali1-ctl.xinhuifun.cn:443/devwss";
     public static String  Origin_online = "wss://ali1-ctl.xinhuifun.cn:443";

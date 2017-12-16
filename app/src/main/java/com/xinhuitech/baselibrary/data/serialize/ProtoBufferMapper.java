@@ -3,20 +3,11 @@ package com.xinhuitech.baselibrary.data.serialize;
 import com.google.protobuf.GeneratedMessageLite;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Parser;
-import com.xinhuitech.baselibrary.data.mapper.EntityToModelMapper;
-import com.xinhuitech.baselibrary.domain.Model;
 import com.xinhuitech.baselibrary.utils.LogUtils;
 import com.xinhuitech.baselibrary.utils.SystemUtils;
 
-import boomegg.cn.wawa.proto.Base;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
+import boomegg.cn.wawa.proto.Base;
 /**
  * Created by Administrator on 2017/12/4.
  */
@@ -26,8 +17,6 @@ public class ProtoBufferMapper<R extends GeneratedMessageLite, P extends Generat
     protected P response;
     protected Parser<P> parser;
     private int commandId;
-    EntityToModelMapper<GeneratedMessageLite> modelMapper;
-    private Observer<GeneratedMessageLite> observer;
     private Exception exception;
 
     public ProtoBufferMapper(R request, Parser<P> parser, int commandId) {
@@ -59,33 +48,10 @@ public class ProtoBufferMapper<R extends GeneratedMessageLite, P extends Generat
         return null;
     }
 
-    public ProtoBufferMapper<R, P> modelMapper(EntityToModelMapper<? extends GeneratedMessageLite> modelMapper) {
-        this.modelMapper = (EntityToModelMapper<GeneratedMessageLite>) modelMapper;
-        return this;
-    }
-
-    public void postResult() {
-        Observable<GeneratedMessageLite> observable = Observable.create(new ObservableOnSubscribe<GeneratedMessageLite>() {
-            @Override
-            public void subscribe(ObservableEmitter<GeneratedMessageLite> emitter) throws Exception {
-                if (exception != null) {
-                    emitter.onError(exception);
-                } else {
-                    emitter.onNext(response);
-                    emitter.onComplete();
-                }
-            }
-        });
-        observable.subscribe(observer);
-
-    }
-
     public int getCommandId() {
         return commandId;
     }
 
-    public void subscribe(Observer<GeneratedMessageLite> observer) {
-        this.observer = observer;
-    }
+
 
 }

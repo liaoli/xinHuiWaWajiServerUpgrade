@@ -144,36 +144,38 @@ public class WebSocketLink extends WebSocketListener implements LongLink {
 
     private int reConnectTimes = 0;
 
-    private int reConnectedtime = 3000;
+    private int reConnectedStarttime = 2000;
+
     private Timer  reConnectCountDownTimer;
+
+    private int reConnectedtime = reConnectedStarttime;
 
     private void reConnect() {
 
-        LogUtils.e("websocket onFailure---------> reConnect reConnectTimes = " + reConnectTimes);
-        if(reConnectTimes > 10){
-            LogUtils.e("websocket onFailure---------> reConnect reConnectTimes = " + reConnectTimes + "stop reConnect");
-            return;
+        reConnectedtime =  reConnectTimes *reConnectedStarttime;
+        if(reConnectTimes > 15){
+            reConnectedtime = reConnectedStarttime * 15;
         };
-        reConnectTimes += 1;
+        LogUtils.e("websocket onFailure---------> reConnect reConnectTimes = " + reConnectTimes  +",reConnectedtime = " + reConnectedtime );
+
+        reConnectTimes++;
         if(reConnectCountDownTimer != null){
             reConnectCountDownTimer.cancel();
         }
 
         reConnectCountDownTimer = new Timer();
 
-
-
         reConnectCountDownTimer.schedule(new TimerTask() {
             @Override
             public void run() {
 
-                if(isConnecting){
+                if(!disconnected ||isConnecting){
                     cancel();
                     return;
                 }
                 makeSureConnected();
             }
-        },reConnectedtime * reConnectTimes);
+        },reConnectedtime);
 
 
         /*if(reConnectTimes > 10){

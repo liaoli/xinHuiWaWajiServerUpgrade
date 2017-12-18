@@ -14,11 +14,13 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadHelper;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xinhui.upgradeapp.content.UrlOriginContent;
 import com.xinhui.upgradeapp.content.CtrlType;
 import com.xinhui.upgradeapp.service.LongLinkMessageManager;
 import com.xinhui.upgradeapp.util.SilentInstall;
 import com.xinhuitech.baselibrary.data.serialize.ProtoBufferMapper;
+import com.xinhuitech.baselibrary.utils.LogUtils;
 
 import java.io.File;
 import java.util.List;
@@ -30,6 +32,8 @@ import boomegg.cn.wawa.proto.Game;
 public class MyService extends Service implements LongLinkMessageManager.CtrlCallback {
     private static final String TAG = "MyService";
     private final static int GRAY_SERVICE_ID = -1001;
+
+    private String normalTaskFilePath ;
 
     public MyService() {
 
@@ -159,6 +163,7 @@ public class MyService extends Service implements LongLinkMessageManager.CtrlCal
         FileDownloadHelper.holdContext(getApplicationContext());
         FileDownloader.setup(getApplicationContext());
         String path = FileDownloadHelper.getAppContext().getExternalCacheDir().getAbsolutePath() + File.separator + "update.apk";
+        normalTaskFilePath = path;
         if (TextUtils.isEmpty(url)) {
             url = "http://cdn.llsapp.com/android/LLS-v4.0-595-20160908-143200.apk";
         }
@@ -203,16 +208,32 @@ public class MyService extends Service implements LongLinkMessageManager.CtrlCal
 
                         String path = task.getPath();
 
-
-                        if (BuildConfig.DEBUG) {
-                            path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "wwj.apk";
-                        }
+//                        if (BuildConfig.DEBUG) {
+//                            path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "wwj.apk";
+//                        }
 
                         boolean result = SilentInstall.install(path);
+
 
                         Log.e(TAG,"result = " + result);
                         if (result) {
                             startWawajiDaemon();
+
+                            File apkFile = new File(normalTaskFilePath);
+
+                            if(apkFile.exists()){
+                                boolean deleteFSuccess = apkFile.delete();
+                                LogUtils.e("deleteFSuccess = " + deleteFSuccess );
+                            }
+
+                            File apkTemp = new File(FileDownloadUtils.getTempPath(normalTaskFilePath));
+
+                            if(apkTemp.exists()){
+                                boolean deleteTSuccess =apkTemp.delete();
+                                LogUtils.e("deleteTSuccess = " + deleteTSuccess);
+                            }
+
+
                         }
 
                     }
